@@ -120,4 +120,14 @@
         app:layout_constraintTop_toTopOf="@+id/txtConfirmarContrasenaRegistro"
         app:layout_constraintVertical_bias="0.555" />
 
+    <ImageView
+        android:id="@+id/imgAtras"
+        android:layout_width="36dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_atras" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

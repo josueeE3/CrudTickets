@@ -35,6 +35,8 @@ class Registrarse : AppCompatActivity() {
         val btnCrearCuenta = findViewById<Button>(R.id.btnCrearCuenta)
         val btnIniciarSesion = findViewById<Button>(R.id.btnIniciarSession)
         val imgVerConfirmacionContrasena = findViewById<ImageView>(R.id.imgOcultarContrasena)
+        val imgAtras = findViewById<ImageView>(R.id.imgAtras)
+
 
 
         btnCrearCuenta.setOnClickListener{
@@ -94,7 +96,10 @@ class Registrarse : AppCompatActivity() {
             val pantallaIniciarSesion = Intent(this, IniciarSesion::class.java)
             startActivity(pantallaIniciarSesion)
         }
-
-    }
+            imgAtras.setOnClickListener {
+                val pantallaIniciarSesion = Intent(this, IniciarSesion::class.java)
+                startActivity(pantallaIniciarSesion)
+            }
+        }
     }
 }
