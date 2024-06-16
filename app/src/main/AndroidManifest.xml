@@ -15,6 +15,12 @@
         android:theme="@style/Theme.AplicacionCrud"
         tools:targetApi="31">
         <activity
+            android:name=".ItemCard"
+            android:exported="false" />
+        <activity
+            android:name=".Ticket"
+            android:exported="false" />
+        <activity
             android:name=".Bienvenida"
             android:exported="false" />
         <activity

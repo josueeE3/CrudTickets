@@ -11,6 +11,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class IniciarSesion : AppCompatActivity() {
@@ -48,7 +49,6 @@ class IniciarSesion : AppCompatActivity() {
                     println("Usuario no encontrado, verifique las credenciales")
                 }
             }
-
         }
 
         btnRegistrarse.setOnClickListener {
@@ -56,6 +56,7 @@ class IniciarSesion : AppCompatActivity() {
             val pantallaRegistrarse = Intent(this, Registrarse::class.java)
             startActivity(pantallaRegistrarse)
         }
+
 
     }
 
