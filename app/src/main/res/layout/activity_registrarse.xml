@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Registrarse">
 
     <TextView
         android:id="@+id/textView"
@@ -16,81 +16,16 @@
         android:textSize="45sp"
         app:layout_constraintBottom_toTopOf="@+id/txtCorreoRegistro"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.245"
+        app:layout_constraintHorizontal_bias="0.294"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.481" />
-
-    <EditText
-        android:id="@+id/txtConfirmarContrasenaRegistro"
-        android:layout_width="308dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/custom_item"
-        android:drawableStart="@drawable/custom_eye"
-        android:drawablePadding="12dp"
-        android:ems="10"
-        android:hint="Confirmar Contraseña"
-        android:inputType="textPassword"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnCrearCuenta"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/txtCorreoRegistro"
-        android:layout_width="311dp"
-        android:layout_height="46dp"
-        android:layout_marginStart="44dp"
-        android:layout_marginTop="228dp"
-        android:background="@drawable/custom_item"
-        android:drawableStart="@drawable/custom_email"
-        android:drawablePadding="12dp"
-        android:ems="10"
-        android:hint="Correo Electronico"
-        android:inputType="text"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/txtContrasenaRegistro"
-        android:layout_width="310dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="44dp"
-        android:background="@drawable/custom_item"
-        android:drawableStart="@drawable/custom_lock"
-        android:drawablePadding="12dp"
-        android:ems="10"
-        android:hint="Contraseña"
-        android:inputType="textPassword"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/txtConfirmarContrasenaRegistro"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtCorreoRegistro"
-        app:layout_constraintVertical_bias="0.518" />
-
-    <Button
-        android:id="@+id/btnCrearCuenta"
-        android:layout_width="310dp"
-        android:layout_height="54dp"
-        android:layout_marginBottom="236dp"
-        android:backgroundTint="#47A1E8"
-        android:fontFamily="@font/abril_fatface"
-        android:text="Crear Cuenta"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.415"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintVertical_bias="0.885" />
 
     <Button
         android:id="@+id/btnIniciarSession"
         android:layout_width="308dp"
         android:layout_height="51dp"
-        android:layout_marginBottom="88dp"
+        android:layout_marginBottom="92dp"
         android:backgroundTint="#47A1E8"
         android:fontFamily="@font/abril_fatface"
         android:text="Iniciar Sesión"
@@ -103,12 +38,86 @@
         android:id="@+id/textView2"
         android:layout_width="173dp"
         android:layout_height="17dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/abril_fatface"
         android:text="¿Ya tienes una cuenta?"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnCrearCuenta" />
+
+    <EditText
+        android:id="@+id/txtContrasenaRegistro"
+        android:layout_width="311dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="44dp"
+        android:background="@drawable/custom_item"
+        android:drawableStart="@drawable/custom_lock"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Contraseña"
+        android:inputType="textPassword"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/txtConfirmarContrasenaRegistro"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtCorreoRegistro" />
+
+    <EditText
+        android:id="@+id/txtCorreoRegistro"
+        android:layout_width="311dp"
+        android:layout_height="46dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="252dp"
+        android:background="@drawable/custom_item"
+        android:drawableStart="@drawable/custom_email"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Correo Electronico"
+        android:inputType="text"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btnCrearCuenta"
+        android:layout_width="310dp"
+        android:layout_height="54dp"
+        android:layout_marginBottom="208dp"
+        android:backgroundTint="#47A1E8"
+        android:fontFamily="@font/abril_fatface"
+        android:text="Crear Cuenta"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.415"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtConfirmarContrasenaRegistro"
+        android:layout_width="309dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="36dp"
+        android:background="@drawable/custom_item"
+        android:drawablePadding="12dp"
+        android:ems="10"
+        android:hint="Confirmar Contraseña"
+        android:inputType="textPassword"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCrearCuenta"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgOcultarContrasena"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:src="@drawable/custom_eye"
+        app:layout_constraintBottom_toBottomOf="@+id/txtConfirmarContrasenaRegistro"
+        app:layout_constraintEnd_toEndOf="@+id/txtConfirmarContrasenaRegistro"
+        app:layout_constraintTop_toTopOf="@+id/txtConfirmarContrasenaRegistro"
+        app:layout_constraintVertical_bias="0.555" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
