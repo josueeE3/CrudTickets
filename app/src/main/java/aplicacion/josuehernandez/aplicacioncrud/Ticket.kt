@@ -4,6 +4,8 @@ import Modelo.Conexion
 import Modelo.tbTicket
 import RecyclerViewHelpers.Adaptador
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.Spinner
@@ -44,6 +46,7 @@ class Ticket : AppCompatActivity() {
 
 
         val opcionesEstado = arrayOf("Activo", "Inactivo")
+
         txtestado.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, opcionesEstado)
 
 
@@ -58,7 +61,7 @@ class Ticket : AppCompatActivity() {
             val listaTickets = mutableListOf<tbTicket>()
 
             while (resultSet.next()){
-                val uuid = resultSet.getString("uuid")
+                val uuid = resultSet.getString("UUID_Ticket")
                 val titulo = resultSet.getString("Titulo")
                 val descripcion = resultSet.getString("Descripcion_Ticket")
                 val responsable = resultSet.getString("Responsable_Ticket")
@@ -66,10 +69,8 @@ class Ticket : AppCompatActivity() {
                 val telefono = resultSet.getString("Telefono_Autor")
                 val ubicacion = resultSet.getString("Ubicacion")
                 val estado = resultSet.getString("Estado")
-
-                val valoresJuntos = tbTicket(uuid,titulo,descripcion,responsable,email,telefono,ubicacion,estado)
-
-                listaTickets.add(valoresJuntos)
+                val ticket = tbTicket(uuid,titulo,descripcion,responsable,email,telefono,ubicacion,estado)
+                listaTickets.add(ticket)
             }
             return listaTickets
         }
@@ -105,10 +106,14 @@ class Ticket : AppCompatActivity() {
 
                 addTicket.executeUpdate()
 
+                val nuevosTickets = obtenerTickets()
+
+                withContext(Dispatchers.Main){
+                    (rcvTicket.adapter as? Adaptador)?.actualizarRecyclerView(nuevosTickets)
+                }
+
+
             }
         }
-
-
-
     }
 }

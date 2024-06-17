@@ -16,6 +16,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.sql.SQLException
 import java.util.UUID
 
 class Registrarse : AppCompatActivity() {
@@ -37,8 +38,6 @@ class Registrarse : AppCompatActivity() {
         val imgVerConfirmacionContrasena = findViewById<ImageView>(R.id.imgOcultarContrasena)
         val imgAtras = findViewById<ImageView>(R.id.imgAtras)
 
-
-
         btnCrearCuenta.setOnClickListener{
 
             val correo = txtCorreo.text.toString().trim()
@@ -55,30 +54,40 @@ class Registrarse : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-
-            GlobalScope.launch(Dispatchers.IO){
-                try{
+            GlobalScope.launch(Dispatchers.IO) {
+                try {
                     val objConexion = Conexion().cadenaConexion()
+                    if (objConexion == null) {
+                        withContext(Dispatchers.Main) {
+                            Toast.makeText(this@Registrarse, "Error de conexión a la base de datos", Toast.LENGTH_SHORT).show()
+                        }
+                        return@launch
+                    }
 
-                    val crearUsuario =
-                        objConexion?.prepareStatement("INSERT INTO tbUsuarios(UUID_usuario, correoElectronico, clave) VALUES (?, ?, ?)")!!
+                    val crearUsuario = objConexion.prepareStatement("INSERT INTO tbUsuarios(UUID_usuario, correoElectronico, clave) VALUES (?, ?, ?)")
                     crearUsuario.setString(1, UUID.randomUUID().toString())
-                    crearUsuario.setString(2, txtCorreo.text.toString())
-                    crearUsuario.setString(3, txtContrasenaRegistro.text.toString())
+                    crearUsuario.setString(2, correo)
+                    crearUsuario.setString(3, contrasena)
                     crearUsuario.executeUpdate()
+
                     withContext(Dispatchers.Main) {
-                        //Abro otra corrutina o "Hilo" para mostrar un mensaje y limpiar los campos
-                        //Lo hago en el Hilo Main por que el hilo IO no permite mostrar nada en pantalla
+                        // Mostrar un mensaje y limpiar los campos
                         Toast.makeText(this@Registrarse, "Usuario creado", Toast.LENGTH_SHORT).show()
                         txtCorreo.setText("")
                         txtContrasenaRegistro.setText("")
                         txtConfirmarPassword.setText("")
                     }
-                }catch (e:Exception){
+                } catch (e: SQLException) {
                     withContext(Dispatchers.Main) {
-
+                        // Mostrar más detalles sobre el error de SQL
+                        Toast.makeText(this@Registrarse, "Error de SQL al crear el usuario: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                } catch (e: Exception) {
+                    withContext(Dispatchers.Main) {
+                        // Mostrar más detalles sobre el error general
                         Toast.makeText(this@Registrarse, "Error al crear el usuario: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
+                }
             }
         }
 
@@ -102,4 +111,3 @@ class Registrarse : AppCompatActivity() {
             }
         }
     }
-}

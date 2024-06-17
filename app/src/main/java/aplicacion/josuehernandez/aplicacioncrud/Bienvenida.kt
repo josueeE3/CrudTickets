@@ -22,8 +22,8 @@ class Bienvenida : AppCompatActivity() {
         }
 
         Handler(Looper.getMainLooper()).postDelayed({
-            val mainIntent = Intent(this, Ticket::class.java)
-            startActivity(mainIntent)
+            val pantallaTicket = Intent(this, Ticket::class.java)
+            startActivity(pantallaTicket)
             finish() // Cierra la actividad SplashScreenActivity
         }, 3000)
 
