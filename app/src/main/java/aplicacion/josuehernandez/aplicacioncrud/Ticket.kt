@@ -2,11 +2,10 @@ package aplicacion.josuehernandez.aplicacioncrud
 
 import Modelo.Conexion
 import Modelo.tbTicket
+import RecyclerViewHelpers.Adaptador
 import android.os.Bundle
-import android.widget.Adapter
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -45,7 +44,7 @@ class Ticket : AppCompatActivity() {
 
 
         val opcionesEstado = arrayOf("Activo", "Inactivo")
-        txtestado.adapter = ArrayAdapter <String>(this, android.R.layout.simple_list_item_1, opcionesEstado)
+        txtestado.adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, opcionesEstado)
 
 
         rcvTicket.layoutManager = LinearLayoutManager(this)
@@ -59,7 +58,7 @@ class Ticket : AppCompatActivity() {
             val listaTickets = mutableListOf<tbTicket>()
 
             while (resultSet.next()){
-                val UUID = resultSet.getString("uuid")
+                val uuid = resultSet.getString("uuid")
                 val titulo = resultSet.getString("Titulo")
                 val descripcion = resultSet.getString("Descripcion_Ticket")
                 val responsable = resultSet.getString("Responsable_Ticket")
@@ -68,7 +67,7 @@ class Ticket : AppCompatActivity() {
                 val ubicacion = resultSet.getString("Ubicacion")
                 val estado = resultSet.getString("Estado")
 
-                val valoresJuntos = tbTicket(UUID,titulo,descripcion,responsable,email,telefono,ubicacion,estado)
+                val valoresJuntos = tbTicket(uuid,titulo,descripcion,responsable,email,telefono,ubicacion,estado)
 
                 listaTickets.add(valoresJuntos)
             }
@@ -78,7 +77,7 @@ class Ticket : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             val ticektsDB = obtenerTickets()
             withContext(Dispatchers.Main){
-                val adapter = RecyclerViewHelpers.Adapter(ticektsDB)
+                val adapter = Adaptador(ticektsDB)
                 rcvTicket.adapter = adapter
             }
         }
