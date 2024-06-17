@@ -101,13 +101,15 @@ class Registrarse : AppCompatActivity() {
             }
         }
 
+        imgAtras.setOnClickListener {
+            val pantallaIniciarSesion = Intent(this, IniciarSesion::class.java)
+            startActivity(pantallaIniciarSesion)
+        }
+
         btnIniciarSesion.setOnClickListener {
             val pantallaIniciarSesion = Intent(this, IniciarSesion::class.java)
             startActivity(pantallaIniciarSesion)
         }
-            imgAtras.setOnClickListener {
-                val pantallaIniciarSesion = Intent(this, IniciarSesion::class.java)
-                startActivity(pantallaIniciarSesion)
-            }
+
         }
     }

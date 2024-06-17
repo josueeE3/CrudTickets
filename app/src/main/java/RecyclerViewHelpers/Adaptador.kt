@@ -4,6 +4,7 @@ import Modelo.Conexion
 import Modelo.tbTicket
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -13,6 +14,7 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import aplicacion.josuehernandez.aplicacioncrud.DetalleticketActivity
 import aplicacion.josuehernandez.aplicacioncrud.R
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -20,9 +22,9 @@ import kotlinx.coroutines.launch
 import java.sql.SQLException
 import java.util.UUID
 
-class Adaptador(private var Datos: List<tbTicket>): RecyclerView.Adapter<ViewHolder>(){
+class Adaptador(private var Datos: List<tbTicket>): RecyclerView.Adapter<ViewHolder>() {
 
-    fun actualizarRecyclerView(nuevaLista: List<tbTicket>){
+    fun actualizarRecyclerView(nuevaLista: List<tbTicket>) {
         Datos = nuevaLista
         notifyDataSetChanged()
     }
@@ -63,14 +65,15 @@ class Adaptador(private var Datos: List<tbTicket>): RecyclerView.Adapter<ViewHol
         }
     }
 
-    fun editarProducto(uuid: String,titulo: String, estado: String){
+    fun editarProducto(uuid: String, titulo: String, estado: String) {
         //-Creo una corrutina
-        GlobalScope.launch(Dispatchers.IO){
+        GlobalScope.launch(Dispatchers.IO) {
             //1- Creo un objeto de la clase conexion
             val objConexion = Conexion().cadenaConexion()
 
             //2- Creo una variable que contenga un PrepareStatement
-            val updateProducto = objConexion?.prepareStatement("update tbTicket set Titulo = ?, Estado = ? where uuid_Ticket = ?")!!
+            val updateProducto =
+                objConexion?.prepareStatement("update tbTicket set Titulo = ?, Estado = ? where uuid_Ticket = ?")!!
             updateProducto.setString(1, titulo)
             updateProducto?.setString(2, estado)
             updateProducto.setString(3, uuid)
@@ -81,9 +84,11 @@ class Adaptador(private var Datos: List<tbTicket>): RecyclerView.Adapter<ViewHol
             commit.executeUpdate()
         }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
 
-        val vista = LayoutInflater.from(parent.context).inflate(R.layout.activity_item_card, parent, false)
+        val vista =
+            LayoutInflater.from(parent.context).inflate(R.layout.activity_item_card, parent, false)
         return ViewHolder(vista)
     }
 
@@ -98,6 +103,48 @@ class Adaptador(private var Datos: List<tbTicket>): RecyclerView.Adapter<ViewHol
         when (item.estado) {
             "Activo" -> holder.imgEstado.setImageResource(R.drawable.ic_estadoverde)
             "Inactivo" -> holder.imgEstado.setImageResource(R.drawable.ic_estadored)
+        }
+
+        holder.imgEditar.setOnClickListener {
+            val alertDialogBuilder = AlertDialog.Builder(holder.itemView.context)
+            alertDialogBuilder.setTitle("Editar Ticket")
+            alertDialogBuilder.setMessage("Ingrese el nuevo título del ticket:")
+
+            val layout = LinearLayout(holder.itemView.context)
+            layout.orientation = LinearLayout.VERTICAL
+
+            val inputTitulo = EditText(holder.itemView.context)
+            inputTitulo.setText(item.titulo)
+            layout.addView(inputTitulo)
+
+            val estadoSpinner = Spinner(holder.itemView.context)
+            val opcionesEstado = arrayOf("Activo", "Inactivo")
+            estadoSpinner.adapter = ArrayAdapter(holder.itemView.context, android.R.layout.simple_spinner_dropdown_item, opcionesEstado)
+            val estadoPosicion = opcionesEstado.indexOf(item.estado)
+            if (estadoPosicion >= 0) {
+                estadoSpinner.setSelection(estadoPosicion)
+            }
+            layout.addView(estadoSpinner)
+
+            alertDialogBuilder.setView(layout)
+
+            alertDialogBuilder.setPositiveButton("Guardar") { dialog, which ->
+                val nuevoTitulo = inputTitulo.text.toString().trim()
+                val nuevoEstado = estadoSpinner.selectedItem.toString()
+                if (nuevoTitulo.isNotEmpty()) {
+                    editarProducto(item.UUID, nuevoTitulo, nuevoEstado)
+                    actualizarListadoDespuesDeEditar(item.UUID, nuevoTitulo, nuevoEstado)
+                } else {
+                    Toast.makeText(holder.itemView.context, "Ingrese un título válido", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            alertDialogBuilder.setNegativeButton("Cancelar") { dialog, which ->
+                dialog.dismiss()
+            }
+
+            val alertDialog = alertDialogBuilder.create()
+            alertDialog.show()
         }
 
         holder.imgEliminar.setOnClickListener {
@@ -121,51 +168,36 @@ class Adaptador(private var Datos: List<tbTicket>): RecyclerView.Adapter<ViewHol
             val dialog = builder.create()
             dialog.show()
 
-            holder.imgEditar.setOnClickListener {
-                val alertDialogBuilder = AlertDialog.Builder(holder.itemView.context)
-                alertDialogBuilder.setTitle("Editar Ticket")
-                alertDialogBuilder.setMessage("Ingrese el nuevo título del ticket:")
 
-                val layout = LinearLayout(holder.itemView.context)
-                layout.orientation = LinearLayout.VERTICAL
+        }
 
-                val inputTitulo = EditText(holder.itemView.context)
-                inputTitulo.setText(item.titulo)
-                layout.addView(inputTitulo)
-
-                val estadoSpinner = Spinner(holder.itemView.context)
-                val opcionesEstado = arrayOf("Activo", "Inactivo")
-                estadoSpinner.adapter = ArrayAdapter(holder.itemView.context, android.R.layout.simple_spinner_dropdown_item, opcionesEstado)
-                val estadoPosicion = opcionesEstado.indexOf(item.estado)
-                if (estadoPosicion >= 0) {
-                    estadoSpinner.setSelection(estadoPosicion)
-                }
-                layout.addView(estadoSpinner)
-
-                alertDialogBuilder.setView(layout)
-
-                alertDialogBuilder.setPositiveButton("Guardar") { dialog, which ->
-                    val nuevoTitulo = inputTitulo.text.toString().trim()
-                    val nuevoEstado = estadoSpinner.selectedItem.toString()
-                    if (nuevoTitulo.isNotEmpty()) {
-                        editarProducto(item.UUID, nuevoTitulo, nuevoEstado)
-                        actualizarListadoDespuesDeEditar(item.UUID, nuevoTitulo, nuevoEstado)
-                    } else {
-                        Toast.makeText(holder.itemView.context, "Ingrese un título válido", Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                alertDialogBuilder.setNegativeButton("Cancelar") { dialog, which ->
-                    dialog.dismiss()
-                }
-
-                val alertDialog = alertDialogBuilder.create()
-                alertDialog.show()
-            }
+        holder.itemView.setOnClickListener{
+            val context = holder.itemView.context
+            val pantalla = Intent(context, DetalleticketActivity::class.java)
+            pantalla.putExtra(
+                "Titulo", item.titulo
+            )
+            pantalla.putExtra(
+                "Descripcion", item.descripcion
+            )
+            pantalla.putExtra(
+                "Responsable", item.responsable
+            )
+            pantalla.putExtra(
+                "CorreoElectronico", item.email
+            )
+            pantalla.putExtra(
+                "Telefono", item.telefonoAutor
+            )
+            pantalla.putExtra(
+                "Ubicacion", item.ubicacion
+            )
+            pantalla.putExtra(
+                "Estado", item.estado
+            )
+            context.startActivity(pantalla)
 
         }
 
     }
-
 }
-

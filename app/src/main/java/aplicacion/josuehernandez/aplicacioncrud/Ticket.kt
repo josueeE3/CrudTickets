@@ -111,8 +111,6 @@ class Ticket : AppCompatActivity() {
                 withContext(Dispatchers.Main){
                     (rcvTicket.adapter as? Adaptador)?.actualizarRecyclerView(nuevosTickets)
                 }
-
-
             }
         }
     }
